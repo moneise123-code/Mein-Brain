@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111e">
+<title>JARVIS — Personal Command Center</title>
+<style>
+:root{--bg:#07111e;--panel:#0b1a2a;--panel2:#0e2032;--line:rgba(107,190,225,.17);--cyan:#5de3f2;--blue:#4e9fff;--muted:#91a9bb;--text:#e8f5fb;--green:#6ce0b0;--amber:#f5c76a;--red:#ff7e86;--shadow:0 18px 50px rgba(0,0,0,.28)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 70% -10%,#12334a 0,transparent 42%),linear-gradient(145deg,#06101b,#081827 58%,#07111e);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer;color:inherit}.app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}.sidebar{border-right:1px solid var(--line);padding:25px 16px;background:rgba(5,15,26,.78);backdrop-filter:blur(18px);display:flex;flex-direction:column;gap:26px}.brand{display:flex;align-items:center;gap:12px;padding:2px 10px}.orb{width:37px;height:37px;border:1px solid var(--cyan);border-radius:50%;display:grid;place-items:center;box-shadow:0 0 22px #39d7ec55,inset 0 0 13px #39d7ec33;color:var(--cyan);font-weight:800;letter-spacing:-2px}.brand strong{letter-spacing:3px;font-size:17px}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:2px;margin-top:1px}.nav-label{color:#58788d;text-transform:uppercase;font-size:10px;letter-spacing:2px;padding:0 12px;margin-bottom:7px}.nav{display:grid;gap:5px}.nav button{border:1px solid transparent;background:transparent;text-align:left;padding:11px 12px;border-radius:10px;color:#a9c0cf;display:flex;align-items:center;gap:12px;transition:.2s}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#14344a,#10283a);border-color:#36758a66;color:#eafcff}.nav button.active{box-shadow:inset 2px 0 var(--cyan)}.ico{width:18px;text-align:center;color:var(--cyan);font-size:16px}.side-bottom{margin-top:auto}.system-card{border:1px solid var(--line);background:#0b1d2b;padding:14px;border-radius:13px}.system-card small{color:var(--muted)}.statusline{display:flex;align-items:center;gap:8px;margin:7px 0 2px;font-size:12px}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green)}.main{min-width:0;padding:26px clamp(16px,3vw,42px) 42px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:28px}.eyebrow{color:var(--cyan);font-size:10px;letter-spacing:2.5px;text-transform:uppercase}.topbar h1{font-size:clamp(22px,3vw,30px);margin:4px 0 0;letter-spacing:-.7px}.top-right{display:flex;align-items:center;gap:12px}.clock{color:#a8c1d1;font-variant-numeric:tabular-nums;font-size:13px}.avatar{width:35px;height:35px;border-radius:50%;border:1px solid #5de3f266;background:#123147;display:grid;place-items:center;color:var(--cyan);font-weight:700}.view{display:none}.view.active{display:block;animation:fade .3s ease}@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}.hero{border:1px solid #4dd5e733;border-radius:18px;padding:24px;background:linear-gradient(115deg,#102b40dd,#0b1b2add 65%,#10334a99);box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:220px;height:220px;border:1px solid #59ddeb22;border-radius:50%;right:-70px;top:-95px;box-shadow:0 0 0 22px #59ddeb08,0 0 0 48px #59ddeb06}.hero h2{margin:7px 0;font-size:clamp(20px,3vw,27px)}.hero p{margin:0;color:#aac2d1;max-width:720px}.hero-row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;position:relative;z-index:1}.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid #5de3f244;color:#a9f4f7;border-radius:30px;padding:5px 10px;font-size:10px;letter-spacing:1px;text-transform:uppercase}.grid{display:grid;gap:15px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin:17px 0}.panel{background:linear-gradient(145deg,rgba(13,31,47,.94),rgba(9,24,38,.94));border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 10px 30px #00000012}.stat-label{font-size:11px;color:var(--muted)}.stat-value{font-size:22px;font-weight:650;margin:8px 0 2px;letter-spacing:-.5px}.stat-note{font-size:11px;color:#68869a}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:25px 0 12px}.section-head h3{margin:0;font-size:15px;letter-spacing:.2px}.section-head span{font-size:11px;color:var(--muted)}.two{grid-template-columns:1.2fr .8fr}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.list{display:grid;gap:9px}.item{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid #a4d5e014;border-radius:11px;background:#10243766}.item-icon{width:30px;height:30px;flex:0 0 30px;border-radius:9px;background:#14384c;color:var(--cyan);display:grid;place-items:center}.item strong{font-size:13px}.item p{margin:3px 0 0;color:var(--muted);font-size:11px}.muted{color:var(--muted)}.empty{padding:23px 14px;text-align:center;color:#829bad;border:1px dashed #47708755;border-radius:12px;font-size:12px}.empty b{display:block;color:#c5dbe7;margin-bottom:4px}.btn{border:1px solid #4c9eae66;background:#123349;color:#dffaff;padding:9px 13px;border-radius:9px;font-size:12px;transition:.2s}.btn:hover{background:#19465e;border-color:var(--cyan)}.btn.primary{background:linear-gradient(110deg,#167c91,#17629b);border-color:#4ddbea88}.btn.ghost{background:transparent;border-color:var(--line);color:#a9c0cf}.btn.danger{border-color:#ff7e8655;color:#ffb2b7;background:#351d2a}.actions{display:flex;gap:8px;flex-wrap:wrap}.chatbox{display:flex;flex-direction:column;height:min(64vh,610px);min-height:390px}.messages{flex:1;overflow:auto;display:flex;flex-direction:column;gap:12px;padding:5px 2px 16px}.msg{max-width:85%;padding:12px 14px;border-radius:13px;font-size:13px;white-space:pre-wrap}.msg.jarvis{align-self:flex-start;background:#112b3e;border:1px solid #4dd5e722;color:#d9edf5}.msg.user{align-self:flex-end;background:#17445b;border:1px solid #5de3f244}.msg small{display:block;color:#7fa4b8;font-size:9px;letter-spacing:1px;margin-bottom:4px}.composer{display:flex;gap:9px;border-top:1px solid var(--line);padding-top:13px}.composer input,.field input,.field textarea,.field select{width:100%;background:#071725;border:1px solid #46718755;border-radius:9px;color:var(--text);padding:11px 12px;outline:none}.composer input:focus,.field input:focus,.field textarea:focus{border-color:#58d9e6}.composer input{min-width:0}.field{display:grid;gap:6px;margin-bottom:13px}.field label{font-size:11px;color:#a7c1d0}.field textarea{min-height:90px;resize:vertical}.task{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #a4d5e014}.task:last-child{border:0}.task label{display:flex;gap:9px;align-items:center;font-size:12px}.task input{accent-color:#55d9e9}.tag{font-size:10px;color:#9bdce5;border:1px solid #4dd5e733;border-radius:20px;padding:3px 8px;white-space:nowrap}.notice{border-left:2px solid var(--amber);padding:10px 12px;background:#302a1b55;color:#d9c69b;font-size:11px;border-radius:0 8px 8px 0}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:12px;min-width:430px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line)}th{color:#7797aa;font-size:10px;text-transform:uppercase;letter-spacing:1px}td{color:#c4d9e4}.module-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:18px}.module-head h2{margin:4px 0;font-size:23px}.module-head p{margin:0;color:var(--muted);font-size:12px}.footer{margin-top:25px;color:#607f92;font-size:10px;text-align:center}.toast{position:fixed;right:18px;bottom:18px;background:#12384a;border:1px solid #5de3f266;padding:12px 16px;border-radius:10px;box-shadow:var(--shadow);font-size:12px;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:none}.mobile-menu{display:none}
+@media(max-width:900px){.app{grid-template-columns:205px minmax(0,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:640px){.app{display:block}.sidebar{position:sticky;top:0;z-index:5;padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);gap:9px}.brand{padding:0 4px}.brand .orb{width:31px;height:31px}.brand strong{font-size:14px}.brand small{font-size:8px}.sidebar-top{display:flex;align-items:center;justify-content:space-between}.nav-label,.side-bottom{display:none}.nav{display:flex;overflow-x:auto;gap:5px;padding-bottom:2px}.nav button{white-space:nowrap;padding:8px 10px;font-size:11px}.nav button .ico{font-size:13px}.main{padding:18px 13px 30px}.topbar{margin-bottom:17px}.topbar h1{font-size:22px}.clock{display:none}.hero{padding:18px}.hero-row{display:block}.hero .pill{margin-top:13px}.stats{gap:9px;margin:12px 0}.panel{padding:14px}.stat-value{font-size:19px}.three{grid-template-columns:1fr}.section-head{margin-top:20px}.module-head{display:block}.module-head .actions{margin-top:12px}.chatbox{height:64vh;min-height:380px}.msg{max-width:94%}.footer{text-align:left}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="sidebar-top"><div class="brand"><div class="orb">J</div><div><strong>J.A.R.V.I.S.</strong><small>PERSONAL COMMAND SYSTEM</small></div></div></div>
+  <div><div class="nav-label">Command</div><nav class="nav" aria-label="Hauptnavigation">
+    <button class="active" data-view="overview"><span class="ico">⌂</span> Overview</button>
+    <button data-view="assistant"><span class="ico">◉</span> Assistant</button>
+    <button data-view="business"><span class="ico">▣</span> Business</button>
+    <button data-view="trading"><span class="ico">⌁</span> Trading</button>
+    <button data-view="research"><span class="ico">⌕</span> Research</button>
+    <button data-view="tasks"><span class="ico">☷</span> Aufgaben</button>
+    <button data-view="settings"><span class="ico">⚙</span> System & Daten</button>
+  </nav></div>
+  <div class="side-bottom"><div class="system-card"><small>SYSTEMSTATUS</small><div class="statusline"><span class="dot"></span> Lokale Oberfläche aktiv</div><small>Keine externen Dienste verbunden</small></div></div>
+</aside>
+<main class="main">
+<header class="topbar"><div><div class="eyebrow">Personal intelligence interface</div><h1 id="pageTitle">JARVIS Overview</h1></div><div class="top-right"><span class="clock" id="clock"></span><div class="avatar">U</div></div></header>
+
+<section class="view active" id="overview">
+  <div class="hero"><div class="hero-row"><div><div class="eyebrow">Command center · Initial build</div><h2>Guten Abend. System bereit.</h2><p>Dein zentraler Arbeitsbereich für Business-Aufbau, Research und Trading-Analyse. JARVIS hält fest, was du planst – und macht den nächsten Schritt sichtbar.</p></div><span class="pill"><span class="dot"></span> LOCAL MODE</span></div></div>
+  <div class="grid stats">
+    <div class="panel"><div class="stat-label">Business-Umsatz</div><div class="stat-value">Nicht verbunden</div><div class="stat-note">Keine Umsatzdaten importiert</div></div>
+    <div class="panel"><div class="stat-label">Trading-Performance</div><div class="stat-value">Keine Daten</div><div class="stat-note">Noch kein Journal angebunden</div></div>
+    <div class="panel"><div class="stat-label">Offene Aufgaben</div><div class="stat-value" id="openCount">0</div><div class="stat-note">Lokal gespeicherte Aufgaben</div></div>
+    <div class="panel"><div class="stat-label">Agentenstatus</div><div class="stat-value">Bereit</div><div class="stat-note">Externe Agenten noch nicht integriert</div></div>
+  </div>
+  <div class="grid two">
+    <div><div class="section-head"><h3>JARVIS Briefing</h3><span>Lokaler Systemüberblick</span></div><div class="panel list">
+      <div class="item"><div class="item-icon">⌘</div><div><strong>Fokus statt Ideenchaos</strong><p>Lege Aufgaben an und priorisiere einen konkreten nächsten Schritt.</p></div></div>
+      <div class="item"><div class="item-icon">◇</div><div><strong>Business & Research</strong><p>Halte Geschäftsideen, Annahmen und offene Validierungsschritte fest.</p></div></div>
+      <div class="item"><div class="item-icon">⌁</div><div><strong>Trading mit Regeln</strong><p>Dokumentiere Setups und Strategien. Echtgeldhandel ist nicht verfügbar.</p></div></div>
+    </div></div>
+    <div><div class="section-head"><h3>Prioritäten</h3><button class="btn ghost" onclick="showView('tasks')">Alle Aufgaben →</button></div><div class="panel" id="priorityList"><div class="empty"><b>Noch keine Aufgaben</b>Ergänze deinen ersten konkreten nächsten Schritt.</div></div></div>
+  </div>
+  <div class="section-head"><h3>Systemgrenzen – transparent</h3><span>Erste lokale Version</span></div>
+  <div class="notice">Diese Datei ist ein eigenständiges Frontend. Sie enthält keinen KI-Modellzugriff, keine Live-Internetrecherche, keine Broker-Verbindung und keine Hintergrundprozesse. Dashboard-Kennzahlen bleiben deshalb leer, bis echte Datenquellen integriert werden.</div>
+</section>
+
+<section class="view" id="assistant">
+  <div class="module-head"><div><div class="eyebrow">JARVIS CORE</div><h2>Assistant Interface</h2><p>Notiere Anweisungen und verwandle sie in lokal gespeicherte Aufgaben.</p></div><span class="pill">LOCAL COMMAND MODE</span></div>
+  <div class="panel chatbox"><div class="messages" id="messages"><div class="msg jarvis"><small>JARVIS · SYSTEM</small>Guten Tag. Ich bin bereit, deine Vorhaben zu strukturieren. In dieser lokalen Erstversion kann ich Aufgaben speichern und einfache Befehle erkennen; eine echte KI-Anbindung ist noch nicht eingerichtet.</div></div>
+    <form class="composer" id="chatForm"><input id="chatInput" autocomplete="off" placeholder="Schreibe z. B. „Neue Aufgabe: EUR/USD-Strategie dokumentieren“…" aria-label="Nachricht an JARVIS"><button class="btn primary" type="submit">Senden ↗</button></form>
+  </div>
+  <div class="section-head"><h3>Beispielbefehle</h3><span>Zum Ausprobieren anklicken</span></div><div class="actions">
+    <button class="btn ghost sample" data-text="Neue Aufgabe: Fünf Nischen für digitale Produkte recherchieren">Nischen recherchieren</button>
+    <button class="btn ghost sample" data-text="Neue Aufgabe: Meine EUR/USD-Trading-Strategie dokumentieren">Trading-Strategie dokumentieren</button>
+    <button class="btn ghost sample" data-text="Neue Aufgabe: Landingpage-Konzept für ein digitales Produkt erstellen">Landingpage vorbereiten</button>
+  </div>
+</section>
+
+<section class="view" id="business">
+  <div class="module-head"><div><div class="eyebrow">Division 01</div><h2>AI Business Manager</h2><p>Geschäftsmodelle strukturieren, validieren und weiterentwickeln.</p></div><button class="btn primary" onclick="showView('research')">Idee erfassen +</button></div>
+  <div class="grid two">
+    <div class="panel"><div class="section-head" style="margin-top:0"><h3>Business-Projekte</h3><span>Deine Einträge</span></div><div id="businessList" class="empty"><b>Noch keine Projekte hinterlegt</b>Erfasse eine Idee im Research-Bereich und halte den Status fest.</div></div>
+    <div class="panel"><div class="section-head" style="margin-top:0"><h3>Zu prüfende Faktoren</h3></div><div class="list">
+      <div class="item"><div class="item-icon">01</div><div><strong>Nachfrage & Zielgruppe</strong><p>Wer hat welches konkrete Problem und sucht eine Lösung?</p></div></div>
+      <div class="item"><div class="item-icon">02</div><div><strong>Wettbewerb & Differenzierung</strong><p>Welche Alternativen existieren und wodurch wäre das Angebot besser?</p></div></div>
+      <div class="item"><div class="item-icon">03</div><div><strong>Wirtschaftlichkeit</strong><p>Produktions-, Vertriebs- und Marketingkosten gegen reale Zahlungsbereitschaft prüfen.</p></div></div>
+      <div class="item"><div class="item-icon">04</div><div><strong>Umsetzung & Recht</strong><p>Aufwand, Automatisierung, Datenschutz und rechtliche Anforderungen berücksichtigen.</p></div></div>
+    </div></div>
+  </div>
+  <div class="section-head"><h3>Business-Kennzahlen</h3><span>Keine Datenquelle verbunden</span></div>
+  <div class="grid three"><div class="panel"><div class="stat-label">Umsatz</div><div class="stat-value">—</div><div class="stat-note">Nicht importiert</div></div><div class="panel"><div class="stat-label">Kosten & Marge</div><div class="stat-value">—</div><div class="stat-note">Nicht importiert</div></div><div class="panel"><div class="stat-label">Conversion</div><div class="stat-value">—</div><div class="stat-note">Nicht importiert</div></div></div>
+</section>
+
+<section class="view" id="trading">
+  <div class="module-head"><div><div class="eyebrow">Division 02</div><h2>Trading Department</h2><p>Strategien, Setups und Risiko nachvollziehbar dokumentieren.</p></div><span class="pill">PAPER / MANUAL ONLY</span></div>
+  <div class="notice">Keine Live-Marktdaten, Signale oder Orderausführung in dieser Datei. Echtgeldhandel bleibt deaktiviert; Einträge sind persönliche Notizen und keine Anlageempfehlung.</div>
+  <div class="grid two" style="margin-top:15px">
+    <div class="panel"><div class="section-head" style="margin-top:0"><h3>Trading-Setup dokumentieren</h3></div>
+      <form id="tradeForm">
+        <div class="field"><label for="instrument">Markt / Instrument</label><input id="instrument" placeholder="z. B. EUR/USD" required></div>
+        <div class="field"><label for="strategy">Strategie / Bedingungen</label><textarea id="strategy" placeholder="Setup, Marktstruktur, Entry-/Exit-Regeln …" required></textarea></div>
+        <div class="field"><label for="risk">Risikoregel / Notiz (optional)</label><input id="risk" placeholder="Eigene Regel, keine automatische Berechnung"></div>
+        <button class="btn primary" type="submit">Setup lokal speichern</button>
+      </form>
+    </div>
+    <div class="panel"><div class="section-head" style="margin-top:0"><h3>Setup-Journal</h3><span>Gespeicherte Notizen</span></div><div id="tradeList" class="empty"><b>Journal ist leer</b>Dokumentierte Setups erscheinen hier.</div></div>
+  </div>
+  <div class="section-head"><h3>Risikoleitplanken</h3></div><div class="grid three">
+    <div class="panel"><strong>Vor dem Trade</strong><p class="muted" style="font-size:11px">Regeln, Entry, Stop und Invalidierung festlegen.</p></div>
+    <div class="panel"><strong>Nach dem Trade</strong><p class="muted" style="font-size:11px">Ergebnis, Kosten und Regelkonformität dokumentieren.</p></div>
+    <div class="panel"><strong>Vor Optimierung</strong><p class="muted" style="font-size:11px">Backtest, Out-of-Sample-Test und Paper-Trading durchführen.</p></div>
+  </div>
+</section>
+
+<section class="view" id="research">
+  <div class="module-head"><div><div class="eyebrow">Division 03</div><h2>Research Department</h2><p>Chancen und Hypothesen erfassen, statt ungeprüfte Ideen als Fakten zu behandeln.</p></div></div>
+  <div class="grid two">
+    <div class="panel"><div class="section-head" style="margin-top:0"><h3>Neue Geschäftsidee erfassen</h3></div>
+      <form id="ideaForm"><div class="field"><label for="ideaName">Idee / Geschäftsmodell</label><input id="ideaName" placeholder="z. B. Templates für eine bestimmte Zielgruppe" required></div>
+      <div class="field"><label for="ideaAudience">Zielgruppe / Problem</label><textarea id="ideaAudience" placeholder="Für wen ist es gedacht und welches Problem wird gelöst?"></textarea></div>
+      <div class="field"><label for="ideaHypothesis">Erste Hypothese / offene Fragen</label><textarea id="ideaHypothesis" placeholder="Welche Nachfrage vermutest du? Was muss recherchiert werden?"></textarea></div>
+      <button class="btn primary" type="submit">Idee speichern</button></form>
+    </div>
+    <div class="panel"><div class="section-head" style="margin-top:0"><h3>Bewertungsrahmen</h3></div><p class="muted" style="font-size:12px">Jede Idee sollte anhand belegbarer Informationen geprüft werden. Es werden hier bewusst keine Scores oder Marktwerte erfunden.</p>
+      <div class="list"><div class="item"><div class="item-icon">⌕</div><div><strong>Markt & Nachfrage</strong><p>Suchinteresse, Kundeninterviews, Kaufabsicht.</p></div></div><div class="item"><div class="item-icon">◇</div><div><strong>Wettbewerb</strong><p>Anbieter, Preise, Bewertungen, Marktlücken.</p></div></div><div class="item"><div class="item-icon">€</div><div><strong>Wirtschaftlichkeit</strong><p>Kapitalbedarf, Kosten, Marge und Vertrieb.</p></div></div><div class="item"><div class="item-icon">✓</div><div><strong>Machbarkeit</strong><p>Zeitaufwand, Fähigkeiten, Recht und Automatisierung.</p></div></div></div>
+    </div>
+  </div>
+  <div class="section-head"><h3>Ideen-Pipeline</h3><span>Lokale Einträge</span></div><div class="panel" id="ideaList"><div class="empty"><b>Noch keine Ideen erfasst</b>Deine Research-Einträge werden hier gesammelt.</div></div>
+</section>
+
+<section class="view" id="tasks">
+  <div class="module-head"><div><div class="eyebrow">Execution queue</div><h2>Aufgaben & Prioritäten</h2><p>Ein klarer nächster Schritt für jedes Vorhaben.</p></div></div>
+  <div class="grid two">
+    <div class="panel"><div class="section-head" style="margin-top:0"><h3>Aufgabe hinzufügen</h3></div><form id="taskForm"><div class="field"><label for="taskTitle">Aufgabe</label><input id="taskTitle" placeholder="Was ist der nächste konkrete Schritt?" required></div><div class="field"><label for="taskArea">Bereich</label><select id="taskArea"><option>Business</option><option>Trading</option><option>Research</option><option>Persönlich</option></select></div><button class="btn primary" type="submit">Aufgabe anlegen</button></form></div>
+    <div class="panel"><div class="section-head" style="margin-top:0"><h3>Arbeitsprinzip</h3></div><p class="muted" style="font-size:12px">Wähle wenige wichtige Vorhaben und arbeite sie konsequent ab. JARVIS speichert Aufgaben in diesem Browser auf diesem Gerät; es plant oder erledigt sie nicht autonom im Hintergrund.</p><div class="notice">Externe Aktionen wie Veröffentlichungen, Käufe, Werbeausgaben und Echtgeld-Trades benötigen eine separate, ausdrückliche Freigabe.</div></div>
+  </div>
+  <div class="section-head"><h3>Deine Aufgaben</h3><span id="taskSummary">0 offen</span></div><div class="panel" id="taskList"><div class="empty"><b>Keine Aufgaben vorhanden</b>Lege deinen ersten nächsten Schritt an.</div></div>
+</section>
+
+<section class="view" id="settings">
+  <div class="module-head"><div><div class="eyebrow">Configuration & memory</div><h2>System & Daten</h2><p>Lokale Speicherung und technische Grenzen dieser Erstversion.</p></div></div>
+  <div class="grid two">
+    <div class="panel"><h3 style="margin-top:0">Lokales Gedächtnis</h3><p class="muted" style="font-size:12px">Aufgaben, Ideen, Trading-Notizen und Chatverlauf werden im localStorage dieses Browsers gespeichert. Sie verlassen diese HTML-Datei nicht automatisch und sind nicht zwischen Geräten synchronisiert.</p><div class="actions"><button class="btn ghost" id="exportBtn">Daten exportieren</button><button class="btn danger" id="clearBtn">Alle lokalen Daten löschen</button></div></div>
+    <div class="panel"><h3 style="margin-top:0">Integrationsstatus</h3><div class="list"><div class="task"><span>KI-Modell / API</span><span class="tag">Nicht verbunden</span></div><div class="task"><span>Internet-Recherche</span><span class="tag">Nicht verbunden</span></div><div class="task"><span>Datenbank-Backend</span><span class="tag">Browser lokal</span></div><div class="task"><span>Broker / Exchange</span><span class="tag">Deaktiviert</span></div><div class="task"><span>Spracheingabe</span><span class="tag">Browserabhängig</span></div><div class="task"><span>Autonome Workflows</span><span class="tag">Nicht aktiv</span></div></div></div>
+  </div>
+  <div class="section-head"><h3>Geplanter technischer Ausbau</h3></div><div class="panel list">
+    <div class="item"><div class="item-icon">01</div><div><strong>JARVIS Core & Backend</strong><p>Lokale API, austauschbare Modellanbieter, Agentensteuerung und persistente Datenbank.</p></div></div>
+    <div class="item"><div class="item-icon">02</div><div><strong>Recherche & Business-Werkzeuge</strong><p>Echte Quellenanbindung, nachvollziehbare Quellen, Ideenbewertung und Produkt-Workflows.</p></div></div>
+    <div class="item"><div class="item-icon">03</div><div><strong>Trading-Analyse</strong><p>Historische Marktdaten, regelbasierte Tests, Kostenmodell und Paper-Trading.</p></div></div>
+    <div class="item"><div class="item-icon">04</div><div><strong>Sprachsteuerung & kontrollierte Autonomie</strong><p>Sprache, Berechtigungen, Freigabe-Queue, Audit-Logs und sichere Hintergrundjobs.</p></div></div>
+  </div>
+</section>
+<div class="footer">J.A.R.V.I.S. · Lokale Frontend-Erstversion · Keine externen Verbindungen · Keine Finanz- oder Gewinnversprechen</div>
+</main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const STORE='jarvis_local_v1';
+const defaults={tasks:[],ideas:[],trades:[],messages:[]};
+let data=load();
+function load(){try{return {...defaults,...JSON.parse(localStorage.getItem(STORE)||'{}')}}catch(e){return {...defaults}}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(data));}catch(e){notify('Speichern nicht möglich – Browser-Speicher prüfen.');}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function notify(s){const t=document.getElementById('toast');t.textContent=s;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),2600);}
+const titles={overview:'JARVIS Overview',assistant:'Assistant Interface',business:'AI Business Manager',trading:'Trading Department',research:'Research Department',tasks:'Aufgaben & Prioritäten',settings:'System & Daten'};
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));document.getElementById('pageTitle').textContent=titles[id]||'JARVIS';window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+function renderTasks(){const open=data.tasks.filter(t=>!t.done);document.getElementById('openCount').textContent=open.length;document.getElementById('taskSummary').textContent=`${open.length} offen · ${data.tasks.length-open.length} erledigt`;const html=data.tasks.length?data.tasks.map(t=>`<div class="task"><label><input type="checkbox" data-task="${t.id}" ${t.done?'checked':''}><span style="${t.done?'text-decoration:line-through;color:#718c9d':''}">${esc(t.title)} <span class="muted">· ${esc(t.area)}</span></span></label><button class="btn ghost" data-delete-task="${t.id}" aria-label="Aufgabe löschen">×</button></div>`).join(''):'<div class="empty"><b>Keine Aufgaben vorhanden</b>Lege deinen ersten nächsten Schritt an.</div>';document.getElementById('taskList').innerHTML=html;document.getElementById('priorityList').innerHTML=open.length?open.slice(0,4).map(t=>`<div class="task"><span>${esc(t.title)}</span><span class="tag">${esc(t.area)}</span></div>`).join(''):'<div class="empty"><b>Keine offenen Aufgaben</b>Dein Aufgabenbereich ist aktuell leer.</div>';document.querySelectorAll('[data-task]').forEach(el=>el.addEventListener('change',()=>{const t=data.tasks.find(x=>x.id===el.dataset.task);if(t)t.done=el.checked;save();renderTasks();}));document.querySelectorAll('[data-delete-task]').forEach(el=>el.addEventListener('click',()=>{data.tasks=data.tasks.filter(x=>x.id!==el.dataset.deleteTask);save();renderTasks();}));}
+function renderIdeas(){document.getElementById('ideaList').innerHTML=data.ideas.length?data.ideas.map(i=>`<div class="item" style="margin-bottom:9px"><div class="item-icon">◇</div><div style="flex:1"><strong>${esc(i.name)}</strong><p>${esc(i.audience||'Keine Zielgruppe notiert')}</p><p>${esc(i.hypothesis||'Noch keine Hypothese notiert')}</p></div><button class="btn ghost" data-del-idea="${i.id}">×</button></div>`).join(''):'<div class="empty"><b>Noch keine Ideen erfasst</b>Deine Research-Einträge werden hier gesammelt.</div>';document.getElementById('businessList').innerHTML=data.ideas.length?data.ideas.map(i=>`<div class="item" style="margin-bottom:8px"><div class="item-icon">▣</div><div><strong>${esc(i.name)}</strong><p>Idee erfasst · Validierung offen</p></div></div>`).join(''):'<div class="empty"><b>Noch keine Projekte hinterlegt</b>Erfasse eine Idee im Research-Bereich.</div>';document.querySelectorAll('[data-del-idea]').forEach(b=>b.addEventListener('click',()=>{data.ideas=data.ideas.filter(x=>x.id!==b.dataset.delIdea);save();renderIdeas();}));}
+function renderTrades(){document.getElementById('tradeList').innerHTML=data.trades.length?data.trades.map(t=>`<div class="item" style="margin-bottom:9px"><div class="item-icon">⌁</div><div><strong>${esc(t.instrument)}</strong><p>${esc(t.strategy)}</p><p>${esc(t.risk||'Keine Risikonotiz')} · ${esc(t.date)}</p></div></div>`).join(''):'<div class="empty"><b>Journal ist leer</b>Dokumentierte Setups erscheinen hier.</div>';}
+document.getElementById('taskForm').addEventListener('submit',e=>{e.preventDefault();data.tasks.unshift({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),title:document.getElementById('taskTitle').value.trim(),area:document.getElementById('taskArea').value,done:false});save();e.target.reset();renderTasks();notify('Aufgabe lokal gespeichert.');});
+document.getElementById('ideaForm').addEventListener('submit',e=>{e.preventDefault();data.ideas.unshift({id:String(Date.now()),name:document.getElementById('ideaName').value.trim(),audience:document.getElementById('ideaAudience').value.trim(),hypothesis:document.getElementById('ideaHypothesis').value.trim()});save();e.target.reset();renderIdeas();notify('Idee lokal gespeichert.');});
+document.getElementById('tradeForm').addEventListener('submit',e=>{e.preventDefault();data.trades.unshift({instrument:document.getElementById('instrument').value.trim(),strategy:document.getElementById('strategy').value.trim(),risk:document.getElementById('risk').value.trim(),date:new Date().toLocaleDateString('de-DE')});save();e.target.reset();renderTrades();notify('Setup-Notiz gespeichert.');});
+function addMessage(role,text){data.messages.push({role,text,time:new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})});save();renderMessages();}
+function renderMessages(){const box=document.getElementById('messages');const welcome='<div class="msg jarvis"><small>JARVIS · SYSTEM</small>Guten Tag. Ich bin bereit, deine Vorhaben zu strukturieren. In dieser lokalen Erstversion kann ich Aufgaben speichern und einfache Befehle erkennen; eine echte KI-Anbindung ist noch nicht eingerichtet.</div>';box.innerHTML=welcome+data.messages.map(m=>`<div class="msg ${m.role}"><small>${m.role==='user'?'DU':'JARVIS'} · ${esc(m.time||'')}</small>${esc(m.text)}</div>`).join('');box.scrollTop=box.scrollHeight;}
+function respond(text){const lower=text.toLowerCase();let reply='Ich habe deine Nachricht erhalten. In dieser lokalen Version kann ich sie noch nicht inhaltlich durch ein KI-Modell bearbeiten. Formuliere einen konkreten Schritt als „Neue Aufgabe: …“, oder erfasse Ideen und Trading-Notizen in den jeweiligen Bereichen.';
+if(lower.startsWith('neue aufgabe:')||lower.startsWith('aufgabe:')){const title=text.slice(text.indexOf(':')+1).trim();if(title){data.tasks.unshift({id:String(Date.now()),title,area:lower.includes('trading')||lower.includes('eur/')?'Trading':lower.includes('nisch')||lower.includes('recher')?'Research':'Business',done:false});save();renderTasks();reply=`Verstanden. Ich habe „${title}“ als offene Aufgabe lokal gespeichert. Die Aufgabe wurde noch nicht ausgeführt.`;}}
+else if(lower.includes('priorität')||lower.includes('aufgaben')){const open=data.tasks.filter(t=>!t.done);reply=open.length?'Aktuell offene Aufgaben:\n'+open.slice(0,6).map((t,i)=>`${i+1}. ${t.title} (${t.area})`).join('\n'):'Es sind keine offenen Aufgaben gespeichert.';}
+else if(lower.includes('trading'))reply='Ich kann hier keine Live-Marktdaten abrufen und keine Strategie testen. Hinterlege dein Setup im Trading-Bereich; für belastbare Ergebnisse benötigen wir später historische Daten, Kostenmodell und Backtesting.';
+else if(lower.includes('business')||lower.includes('produkt')||lower.includes('nisch'))reply='Ich kann Geschäftsideen lokal sammeln. Eine echte Markt- und Wettbewerbsanalyse erfordert später eine Rechercheanbindung und überprüfbare Quellen. Erfasse die Idee im Research-Bereich.';
+addMessage('jarvis',reply);}
+document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault();const input=document.getElementById('chatInput'),v=input.value.trim();if(!v)return;addMessage('user',v);input.value='';respond(v);});
+document.querySelectorAll('.sample').forEach(b=>b.addEventListener('click',()=>{document.getElementById('chatInput').value=b.dataset.text;document.getElementById('chatInput').focus();}));
+document.getElementById('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='jarvis-daten-export.json';a.click();URL.revokeObjectURL(url);notify('Datenexport erstellt.');});
+document.getElementById('clearBtn').addEventListener('click',()=>{if(confirm('Wirklich alle lokal gespeicherten JARVIS-Daten in diesem Browser löschen?')){data={...defaults};save();renderAll();notify('Lokale Daten gelöscht.');}});
+function renderAll(){renderTasks();renderIdeas();renderTrades();renderMessages();}
+function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleString('de-DE',{weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});}
+renderAll();updateClock();setInterval(updateClock,30000);
+</script>
+</body>
+</html>
